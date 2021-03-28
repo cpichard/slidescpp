@@ -5,13 +5,11 @@ author: Cyril Pichard
 ---
 
 # Session 1
-## Summary
+## Today
 
-Today:
-
-- Interpreted / Compiled
-- Write a simple program 
-- Compile it !
+> - Interpreted / Compiled
+> - Write a simple program 
+> - Compile it !
 
 # Interpreted vs Compiled
 ## Python
@@ -25,7 +23,7 @@ python myscript.py
 ```
 <div class="r-stack">
 
-![](./illustrations/session01_python_os.png){.fragment .fade-in}
+![](./illustrations/session01_python_os.png){.fragment}
 
 ```{.python .number-lines data-line-numbers="|1|2|3|4|3|4" .fragment}
 print "hello"
@@ -116,7 +114,7 @@ int main(int argc, const char **argv)
 }
 ```
 
-### Include
+### \#Include
 
 ```{.cpp data-line-numbers="1" }
 #include <iostream>
@@ -127,9 +125,11 @@ int main(int argc, const char **argv)
     return 0;
 }
 ```
-- think __import__ in python, then forget
-- it's a __preprocessor directive__ (starts with #)
-- #include will tell the preprocessor to include the file iostream
+> - think __import__ in python, then forget
+> - it's a __preprocessor directive__ (starts with #)
+> - tells the __preprocessor__ to include the file iostream
+
+. . .
 
 ```{.bash}
 g++ -E main.cpp
@@ -146,11 +146,11 @@ int main(int argc, const char **argv)
     return 0;
 }
 ```
-- an executable __must__ have a main function 
-- function declaration 
-    - starts with the return type (int)
-    - then the name of the function
-    - arguments in parenthesis
+> - an executable __must__ have a main function 
+> - function declaration 
+>    - starts with the return type (int)
+>    - then the name of the function
+>    - arguments in parenthesis
 
 ### function body
 
@@ -170,7 +170,6 @@ int main(int argc, const char **argv)
 
 ### Let's create a function !
 
-The function declaration should precede its call.
 
 <div class="r-stack">
 
@@ -187,7 +186,7 @@ void printHelloWorld() {
 }
 ```
 
-```{.cpp .fragment .fade-in-then-out}
+```{.cpp .fragment .fade-in}
 #include <iostream>
 
 void printHelloWorld() {
@@ -205,6 +204,8 @@ int main(int argc, const char **argv) {
 ```{.bash}
 g++ main.cpp -o helloworld
 ```
+
+> - The function declaration should precede its call.
 
 ### Remove the body
 
@@ -244,24 +245,26 @@ the __linker__ didn't find the code for printHelloWorld.
 
 ## Several stages
 
-- Pre-processing 
-- Compiling (/usr/bin/cc1plus)
-- Assembling
-- Linking (/usr/bin/ld)
+> - Pre-processing
+> - Compiling (/usr/bin/cc1plus)
+> - Assembling
+> - Linking (/usr/bin/ld)
 
-g++ and gcc are compilation "drivers", they will call the different commands involved in the compilation 
+> g++ and gcc are compilation "drivers", they will call the different commands involved in the compilation 
 
 ### Pre-processing
 
 - Process the directives starting with #
     - #include, #define, #ifdef, #ifndef, ...
 
+. . .
+
 In a new file __multilang.cpp__ write:
 
 ```{.cpp}
 #include <iostream>
 int main(int argc, const char **argv) {
-#ifdef DEBUG_IN_FRENCH
+#ifdef IN_FRENCH
     std::cout << "Bonjour le monde" << std::endl;
 #else
     std::cout << "Hello world" << std::endl;
@@ -270,17 +273,19 @@ int main(int argc, const char **argv) {
 ```
 
 ```{.bash}
-g++ multilang.cpp -DDEBUG_IN_FRENCH -o helloworld
-g++ multilang.cpp -o helloworld
+g++ multilang.cpp -DIN_FRENCH -o helloworld_fr
+g++ multilang.cpp -o helloworld_en
 ```
 
 ### Compiling and assembling
 
-- Checks the syntax
-- Converts your code to assembly and machine code
-- The compiled code is saved in an object file (.o files)
+> - Checks the syntax
+> - Converts your code to assembly and machine code
+> - The compiled code is saved in an object file (.o files)
 
-Going back to the missing printHelloWorld function
+. . .
+
+Let's go back to the main.cpp with missing printHelloWorld function
 
 ```{.bash}
 g++ -c main.cpp -o main.o
@@ -288,12 +293,21 @@ g++ -c main.cpp -o main.o
 
 ### Linking
 
-- Brings multiples objects together
-- Find the functions and link them where needed
+> - Brings multiples piece of machine code together
+>     - object files
+>     - libraries (.a)
+>     - standard default libaries
+> - Resolve the function calls
+>     - "undefined reference"
+> - Create the final 
+>    - executable
+>    - library
+
+
 
 ### Let's make another object
 
-In a new file __helloworld.cpp__ write the code:
+In a new file __printstuff.cpp__ write the code:
 
 ```{.cpp}
 #include <iostream>
@@ -304,16 +318,24 @@ void printHelloWorld() {
 ```
 
 ```{.bash}
-g++ -c helloworld.cpp -o helloworld.o
+g++ -c printstuff.cpp -o printstuff.o
 ```
 
 ### Let's link them
 
 ```{.bash}
-g++ main.o helloworld.o -o helloworld
+g++ main.o printstuff.o -o helloworld
 ```
+. . .
+
+<div class="r-stack">
+
+![](./illustrations/session01_linking.png){.fragment}
 
 
+![](./illustrations/session01_linking2.png){.fragment}
+
+</div>
 ---
 # OPTIONS FOR REVEAL.JS TEMPLATE
 # see https://github.com/hakimel/reveal.js#configuration
@@ -323,7 +345,7 @@ reveal:
 
     # RECOMMENDED
     # beige/black/blood/league/moon/night/serif/simple/sky/solarized/white
-    theme: blood
+    theme: league
     # none/fade/slide/convex/concave/zoom
     transition: concave
     minified: false
