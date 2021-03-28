@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>C++ Training</title>
+    <meta name="description" content="C++ Training">
+
+          <meta name="author" content="Cyril Pichard" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
+          <link rel="stylesheet" href="./reveal.js/dist/theme/blood.css" id="theme">
+    
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+
+    <!--[if lt IE 9]>
+    <script src="./reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    </head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section>
+<h1>C++ Training</h1>
+<h2>Session 1</h2>
+<h3>Cyril Pichard</h3>
+<p>
+<h4></h4>
+</p>
+
+</section>
+
+
+<section>
+<section id="session-1" class="title-slide slide level1">
+<h1>Session 1</h1>
+
+</section>
+<section id="summary" class="title-slide slide level2">
+<h2>Summary</h2>
+<p>Today:</p>
+<ul>
+<li>Interpreted / Compiled</li>
+<li>Write a simple program</li>
+<li>Compile it !</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="interpreted-vs-compiled" class="title-slide slide level1">
+<h1>Interpreted vs Compiled</h1>
+
+</section>
+<section id="python" class="title-slide slide level2">
+<h2>Python</h2>
+
+</section>
+<section id="interpreted-scripting-language" class="slide level3">
+<h3>Interpreted scripting language</h3>
+<ul>
+<li>The executable is python, not your script</li>
+<li>python decodes your script at runtime</li>
+</ul>
+<pre ><code class="bash">python myscript.py</code></pre>
+<div class="r-stack">
+<p><img data-src="./illustrations/session01_python_os.png" class="fragment fade-in" /></p>
+<pre ><code class="python fragment" data-line-numbers="|1|2|3|4|3|4">print "hello"
+print "world"
+for i in range(2):
+    print i</code></pre>
+</div>
+</section>
+
+<section id="c" class="title-slide slide level2">
+<h2>C++</h2>
+
+</section>
+<section id="the-code-needs-to-be-compiled" class="slide level3">
+<h3>The code needs to be compiled</h3>
+<pre ><code class="cpp">int main() {
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+<p><img data-src="./illustrations/session01_compilecpp.png" /></p>
+</section>
+<section id="to-machine-code" class="slide level3">
+<h3>To machine code</h3>
+<p>Which the processor understands</p>
+<pre ><code >0004320 0018 0000 0000 0000 0009 0000 0003 0000
+0004330 0000 0000 0000 0000 0000 0000 0000 0000
+0004340 3748 0000 0000 0000 0381 0000 0000 0000
+0004350 0000 0000 0000 0000 0001 0000 0000 0000
+0004360 0000 0000 0000 0000 0011 0000 0003 0000
+0004370 0000 0000 0000 0000 0000 0000 0000 0000
+0004380 3ac9 0000 0000 0000 011a 0000 0000 0000
+0004390 0000 0000 0000 0000 0001 0000 0000 0000</code></pre>
+<p>In an executable file</p>
+</section>
+<section id="role-of-the-compiler" class="slide level3">
+<h3>Role of the compiler</h3>
+<ul>
+<li>Converts your code to
+<ul>
+<li>executable (.exe, …)</li>
+<li>library (.lib, .so, .dll, …)</li>
+</ul></li>
+</ul>
+</section>
+<section id="which-compiler" class="slide level3">
+<h3>Which compiler ?</h3>
+<ul>
+<li>Multiple compilers available
+<ul>
+<li>gnu
+<ul>
+<li>g++ for C++</li>
+<li>gcc for C</li>
+</ul></li>
+<li>clang</li>
+<li>msvc (windows)</li>
+<li>icc</li>
+</ul></li>
+</ul>
+</section>
+<section id="lets-compile" class="slide level3">
+<h3>Let’s compile !</h3>
+<ul>
+<li>Write the following code in a <strong>main.cpp</strong> file with a text editor:</li>
+</ul>
+<pre ><code class="cpp">#include &lt;iostream&gt;
+int main() {
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+<ul>
+<li>Compile your program. It will create a.out</li>
+</ul>
+<pre ><code class="bash">g++ main.cpp</code></pre>
+<ul>
+<li>Run a.out</li>
+</ul>
+<pre ><code class="bash">./a.out</code></pre>
+</section>
+</section>
+<section>
+<section id="anatomy-of-a-c-program" class="title-slide slide level1">
+<h1>Anatomy of a C++ program</h1>
+
+</section>
+<section id="hello-world" class="title-slide slide level2">
+<h2>Hello world</h2>
+<pre ><code class="cpp">#include &lt;iostream&gt;
+
+int main(int argc, const char **argv)
+{
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+</section>
+<section id="include" class="slide level3">
+<h3>Include</h3>
+<pre ><code class="cpp" data-line-numbers="1">#include &lt;iostream&gt;
+
+int main(int argc, const char **argv)
+{
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+<ul>
+<li>think <strong>import</strong> in python, then forget</li>
+<li>it’s a <strong>preprocessor directive</strong> (starts with #)</li>
+<li>#include will tell the preprocessor to include the file iostream</li>
+</ul>
+<pre ><code class="bash">g++ -E main.cpp</code></pre>
+</section>
+<section id="main-function" class="slide level3">
+<h3>main function</h3>
+<pre ><code class="cpp" data-line-numbers="3">#include &lt;iostream&gt;
+
+int main(int argc, const char **argv)
+{
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+<ul>
+<li>an executable <strong>must</strong> have a main function</li>
+<li>function declaration
+<ul>
+<li>starts with the return type (int)</li>
+<li>then the name of the function</li>
+<li>arguments in parenthesis</li>
+</ul></li>
+</ul>
+</section>
+<section id="function-body" class="slide level3">
+<h3>function body</h3>
+<pre ><code class="cpp" data-line-numbers="4-7">#include &lt;iostream&gt;
+
+int main(int argc, const char **argv)
+{
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+<ul>
+<li>list of statements ending with semicolon</li>
+<li>inside curly braces</li>
+</ul>
+</section>
+<section id="lets-create-a-function" class="slide level3">
+<h3>Let’s create a function !</h3>
+<p>The function declaration should precede its call.</p>
+<div class="r-stack">
+<pre ><code class="cpp fragment fade-out">#include &lt;iostream&gt;
+
+int main(int argc, const char **argv) {
+    printHelloWorld();
+    return 0;
+}
+
+void printHelloWorld() {
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+}</code></pre>
+<pre ><code class="cpp fragment fade-in-then-out">#include &lt;iostream&gt;
+
+void printHelloWorld() {
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+}
+
+int main(int argc, const char **argv) {
+    printHelloWorld();
+    return 0;
+}</code></pre>
+</div>
+<pre ><code class="bash">g++ main.cpp -o helloworld</code></pre>
+</section>
+<section id="remove-the-body" class="slide level3">
+<h3>Remove the body</h3>
+<p>Leave only the <strong>declaration</strong></p>
+<pre ><code class="cpp">#include &lt;iostream&gt;
+
+void printHelloWorld();
+
+int main(int argc, const char **argv) {
+    printHelloWorld();
+    return 0;
+}</code></pre>
+<pre ><code class="bash">g++ main.cpp -o helloworld</code></pre>
+</section>
+<section id="what-is-this-error" class="slide level3">
+<h3>What is this error ?</h3>
+<pre ><code class="bash" data-line-numbers="1-3|1|2|3">/usr/bin/ld: /tmp/ccnI3Zbs.o: in function `main':
+main.cpp:(.text+0x9): undefined reference to `printHelloWorld()'
+collect2: error: ld returned 1 exit status</code></pre>
+<ul>
+<li>ld is the <strong>linker</strong></li>
+<li>/tmp/ccnI3Zbs.o a temporary <strong>object</strong></li>
+<li>undefined reference ?</li>
+</ul>
+<p>the <strong>linker</strong> didn’t find the code for printHelloWorld.</p>
+</section>
+</section>
+<section>
+<section id="how-does-the-compilation-works" class="title-slide slide level1">
+<h1>How does the compilation works ?</h1>
+
+</section>
+<section id="several-stages" class="title-slide slide level2">
+<h2>Several stages</h2>
+<ul>
+<li>Pre-processing</li>
+<li>Compiling (/usr/bin/cc1plus)</li>
+<li>Assembling</li>
+<li>Linking (/usr/bin/ld)</li>
+</ul>
+<p>g++ and gcc are compilation “drivers”, they will call the different commands involved in the compilation</p>
+</section>
+<section id="pre-processing" class="slide level3">
+<h3>Pre-processing</h3>
+<ul>
+<li>Process the directives starting with #
+<ul>
+<li>#include, #define, #ifdef, #ifndef, …</li>
+</ul></li>
+</ul>
+<p>In a new file <strong>multilang.cpp</strong> write:</p>
+<pre ><code class="cpp">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+#ifdef DEBUG_IN_FRENCH
+    std::cout &lt;&lt; "Bonjour le monde" &lt;&lt; std::endl;
+#else
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+#endif
+}</code></pre>
+<pre ><code class="bash">g++ multilang.cpp -DDEBUG_IN_FRENCH -o helloworld
+g++ multilang.cpp -o helloworld</code></pre>
+</section>
+<section id="compiling-and-assembling" class="slide level3">
+<h3>Compiling and assembling</h3>
+<ul>
+<li>Checks the syntax</li>
+<li>Converts your code to assembly and machine code</li>
+<li>The compiled code is saved in an object file (.o files)</li>
+</ul>
+<p>Going back to the missing printHelloWorld function</p>
+<pre ><code class="bash">g++ -c main.cpp -o main.o</code></pre>
+</section>
+<section id="linking" class="slide level3">
+<h3>Linking</h3>
+<ul>
+<li>Brings multiples objects together</li>
+<li>Find the functions and link them where needed</li>
+</ul>
+</section>
+<section id="lets-make-another-object" class="slide level3">
+<h3>Let’s make another object</h3>
+<p>In a new file <strong>helloworld.cpp</strong> write the code:</p>
+<pre ><code class="cpp">#include &lt;iostream&gt;
+void printHelloWorld() {
+    std::cout &lt;&lt; "Hello world" &lt;&lt; std::endl;
+}
+</code></pre>
+<pre ><code class="bash">g++ -c helloworld.cpp -o helloworld.o</code></pre>
+</section>
+<section id="lets-link-them" class="slide level3">
+<h3>Let’s link them</h3>
+<pre ><code class="bash">g++ main.o helloworld.o -o helloworld</code></pre>
+</section>
+</section>
+</div>
+
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+
+<script>
+  Reveal.initialize({
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  // let's set some configuration options from YAML
+    controls: true,
+    progress: false,
+    slideNumber: false,
+    history: false,
+    keyboard: true,
+    overview: true,
+    center: false,
+    touch: true,
+    loop: false,
+    rtl: false,
+    fragments: true,
+    embedded: false,
+    help: true,
+            autoSlide: 0,
+        autoSlideStoppable: true,
+    mouseWheel: false,
+    hideAddressBar: true,
+    previewLinks: false,
+    transitionSpeed: 'default',
+    backgroundTransition: 'none',
+
+
+
+  // none/fade/slide/convex/concave/zoom
+
+  // Optional libraries used to extend on reveal.js
+  plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+  });
+
+</script>
+
+</body>
+</html>
