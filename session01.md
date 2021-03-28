@@ -51,14 +51,14 @@ int main() {
 Which the processor understands
 
 ```
-0004320 0018 0000 0000 0000 0009 0000 0003 0000
-0004330 0000 0000 0000 0000 0000 0000 0000 0000
-0004340 3748 0000 0000 0000 0381 0000 0000 0000
-0004350 0000 0000 0000 0000 0001 0000 0000 0000
-0004360 0000 0000 0000 0000 0011 0000 0003 0000
-0004370 0000 0000 0000 0000 0000 0000 0000 0000
-0004380 3ac9 0000 0000 0000 011a 0000 0000 0000
-0004390 0000 0000 0000 0000 0001 0000 0000 0000
+0018 0000 0000 0000 0009 0000 0003 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+3748 0000 0000 0000 0381 0000 0000 0000
+0000 0000 0000 0000 0001 0000 0000 0000
+0000 0000 0000 0000 0011 0000 0003 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+3ac9 0000 0000 0000 011a 0000 0000 0000
+0000 0000 0000 0000 0001 0000 0000 0000
 ```
 
 In an executable file
@@ -170,7 +170,6 @@ int main(int argc, const char **argv)
 
 ### Let's create a function !
 
-
 <div class="r-stack">
 
 ```{.cpp .fragment .fade-out}
@@ -241,7 +240,7 @@ collect2: error: ld returned 1 exit status
 
 the __linker__ didn't find the code for printHelloWorld.
 
-# How does the compilation works ?
+# How does the compilation work ?
 
 ## Several stages
 
@@ -250,7 +249,7 @@ the __linker__ didn't find the code for printHelloWorld.
 > - Assembling
 > - Linking (/usr/bin/ld)
 
-> g++ and gcc are compilation "drivers", they will call the different commands involved in the compilation 
+> g++ and gcc are compilation "drivers", they call the different commands involved in the compilation 
 
 ### Pre-processing
 
@@ -296,9 +295,9 @@ g++ -c main.cpp -o main.o
 > - Brings multiples piece of machine code together
 >     - object files
 >     - libraries (.a)
->     - standard default libaries
+>     - defaults libraries
 > - Resolve the function calls
->     - "undefined reference"
+>     - remember "undefined reference"
 > - Create the final 
 >    - executable
 >    - library
