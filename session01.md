@@ -328,13 +328,32 @@ g++ main.o printstuff.o -o helloworld
 . . .
 
 <div class="r-stack">
-
 ![](./illustrations/session01_linking.png){.fragment}
 
-
 ![](./illustrations/session01_linking2.png){.fragment}
-
 </div>
+
+
+### Reuse object ?
+
+> - Objects can be reused, or compiled in libraries
+> - Should we write declaration every time ???
+> - No, __headers__ contain declarations and are included
+
+. . .
+
+Move the void printHelloWorld() declaration in a printstuff.h
+
+```{.cpp}
+#include <iostream>
+#include "printstuff.h"
+
+int main(int argc, const char **argv) {
+    printHelloWorld();
+    return 0;
+}
+```
+
 ---
 # OPTIONS FOR REVEAL.JS TEMPLATE
 # see https://github.com/hakimel/reveal.js#configuration

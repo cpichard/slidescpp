@@ -73,7 +73,7 @@
 </ul>
 <pre ><code class="bash">python myscript.py</code></pre>
 <div class="r-stack">
-<p><img data-src="./illustrations/session01_python_os.png" class="fragment" /></p>
+<img data-src="./illustrations/session01_python_os.png" class="fragment" />
 <pre ><code class="python fragment" data-line-numbers="|1|2|3|4|3|4">print "hello"
 print "world"
 for i in range(2):
@@ -96,14 +96,14 @@ for i in range(2):
 <section id="to-machine-code" class="slide level3">
 <h3>To machine code</h3>
 <p>Which the processor understands</p>
-<pre ><code >0004320 0018 0000 0000 0000 0009 0000 0003 0000
-0004330 0000 0000 0000 0000 0000 0000 0000 0000
-0004340 3748 0000 0000 0000 0381 0000 0000 0000
-0004350 0000 0000 0000 0000 0001 0000 0000 0000
-0004360 0000 0000 0000 0000 0011 0000 0003 0000
-0004370 0000 0000 0000 0000 0000 0000 0000 0000
-0004380 3ac9 0000 0000 0000 011a 0000 0000 0000
-0004390 0000 0000 0000 0000 0001 0000 0000 0000</code></pre>
+<pre ><code >0018 0000 0000 0000 0009 0000 0003 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+3748 0000 0000 0000 0381 0000 0000 0000
+0000 0000 0000 0000 0001 0000 0000 0000
+0000 0000 0000 0000 0011 0000 0003 0000
+0000 0000 0000 0000 0000 0000 0000 0000
+3ac9 0000 0000 0000 011a 0000 0000 0000
+0000 0000 0000 0000 0001 0000 0000 0000</code></pre>
 <p>In an executable file</p>
 </section>
 <section id="role-of-the-compiler" class="slide level3">
@@ -274,8 +274,8 @@ collect2: error: ld returned 1 exit status</code></pre>
 </section>
 </section>
 <section>
-<section id="how-does-the-compilation-works" class="title-slide slide level1">
-<h1>How does the compilation works ?</h1>
+<section id="how-does-the-compilation-work" class="title-slide slide level1">
+<h1>How does the compilation work ?</h1>
 
 </section>
 <section id="several-stages" class="title-slide slide level2">
@@ -287,7 +287,7 @@ collect2: error: ld returned 1 exit status</code></pre>
 <li class="fragment">Linking (/usr/bin/ld)</li>
 </ul>
 <blockquote>
-<p>g++ and gcc are compilation “drivers”, they will call the different commands involved in the compilation</p>
+<p>g++ and gcc are compilation “drivers”, they call the different commands involved in the compilation</p>
 </blockquote>
 </section>
 <section id="pre-processing" class="slide level3">
@@ -331,11 +331,11 @@ g++ multilang.cpp -o helloworld_en</code></pre>
 <ul>
 <li class="fragment">object files</li>
 <li class="fragment">libraries (.a)</li>
-<li class="fragment">standard default libaries</li>
+<li class="fragment">defaults libraries</li>
 </ul></li>
 <li class="fragment">Resolve the function calls
 <ul>
-<li class="fragment">“undefined reference”</li>
+<li class="fragment">remember “undefined reference”</li>
 </ul></li>
 <li class="fragment">Create the final
 <ul>
@@ -359,9 +359,27 @@ void printHelloWorld() {
 <pre ><code class="bash">g++ main.o printstuff.o -o helloworld</code></pre>
 <div class="fragment">
 <div class="r-stack">
-<p><img data-src="./illustrations/session01_linking.png" class="fragment" /></p>
-<p><img data-src="./illustrations/session01_linking2.png" class="fragment" /></p>
+<img data-src="./illustrations/session01_linking.png" class="fragment" />
+<img data-src="./illustrations/session01_linking2.png" class="fragment" />
 </div>
+</div>
+</section>
+<section id="reuse-object" class="slide level3">
+<h3>Reuse object ?</h3>
+<ul>
+<li class="fragment">Objects can be reused, or compiled in libraries</li>
+<li class="fragment">Should we write declaration every time ???</li>
+<li class="fragment">No, <strong>headers</strong> contain declarations and are included</li>
+</ul>
+<div class="fragment">
+<p>Move the void printHelloWorld() declaration in a printstuff.h</p>
+<pre ><code class="cpp">#include &lt;iostream&gt;
+#include "printstuff.h"
+
+int main(int argc, const char **argv) {
+    printHelloWorld();
+    return 0;
+}</code></pre>
 </div>
 </section>
 </section>
