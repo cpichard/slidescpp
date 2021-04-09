@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>C++ Training</title>
+    <meta name="description" content="C++ Training">
+
+          <meta name="author" content="Cyril Pichard" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
+          <link rel="stylesheet" href="./reveal.js/dist/theme/league.css" id="theme">
+    
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+
+    <!--[if lt IE 9]>
+    <script src="./reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    </head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section>
+<h1>C++ Training</h1>
+<h2>Session 2</h2>
+<h3>Cyril Pichard</h3>
+<p>
+<h4></h4>
+</p>
+
+</section>
+
+
+<section>
+<section id="session-2" class="title-slide slide level1">
+<h1>Session 2</h1>
+
+</section>
+<section id="today" class="title-slide slide level2">
+<h2>Today</h2>
+<ul>
+<li class="fragment">Project Enigma (part 1)</li>
+<li class="fragment">Makefile</li>
+<li class="fragment">Pointers and Memory</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="project-enigma" class="title-slide slide level1">
+<h1>Project Enigma</h1>
+<p>Encrypt and decrypt text</p>
+<p><img data-src="illustrations/enigma.png" /></p>
+</section>
+<section id="goals" class="title-slide slide level2">
+<h2>Goals</h2>
+<ul>
+<li class="fragment">Encrypt and decrypt text
+<ul>
+<li class="fragment">simple cypher: alphabet shift</li>
+<li class="fragment">“hello bob” -&gt; “nkrru&amp;huh” key=6</li>
+</ul></li>
+<li class="fragment">Dynamic library and command line</li>
+<li class="fragment">Functional tests (gtest)</li>
+<li class="fragment">Useable in python
+<ul>
+<li class="fragment">Crack the key with python ?</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="lets-prepare-the-project" class="title-slide slide level2">
+<h2>let’s prepare the project</h2>
+<ul>
+<li><em>Create a directory</em> <strong>enigma</strong></li>
+<li><em>Create a</em> <strong>main.cpp</strong> <em>with a <strong>‘int main()’</strong> function</em></li>
+<li><em>Create a</em> <strong>enigma.cpp</strong> <em>and</em> <strong>enigma.h</strong></li>
+</ul>
+</section>
+
+<section id="lets-prepare-the-project-1" class="title-slide slide level2">
+<h2>let’s prepare the project</h2>
+<p><strong>enigma.cpp</strong></p>
+<pre ><code class="cpp">#include &lt;iostream&gt;
+
+void encrypt(const char *src, char *dst) {
+    std::cout &lt;&lt; "Received " &lt;&lt; src &lt;&lt; std::endl;
+}</code></pre>
+<p><strong>enigma.h</strong></p>
+<pre ><code class="cpp">void encrypt(const char *src, char *dst);</code></pre>
+</section>
+
+<section id="compilation" class="title-slide slide level2">
+<h2>Compilation ?</h2>
+<p><img data-src="illustrations/enigma-compilation.svg" /></p>
+<ul>
+<li class="fragment">Do we have to run those commands every time there is a change ?</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="make-it" class="title-slide slide level1">
+<h1>‘make’ it</h1>
+
+</section>
+<section id="make-and-makefile" class="title-slide slide level2">
+<h2>make and Makefile</h2>
+<ul>
+<li><em>make</em> is a build automation tool</li>
+<li><em>make</em> looks for a file called <em>Makefile</em></li>
+<li><em>Makefile</em> contains a set of rules
+<ul>
+<li>file to produce (target)</li>
+<li>files needed</li>
+<li>command to produce the target</li>
+</ul></li>
+<li>can be used for anything that needs to be built</li>
+</ul>
+</section>
+
+<section id="makefile-syntax" class="title-slide slide level2">
+<h2>Makefile syntax</h2>
+<div class="r-stack">
+<p><img data-src="./illustrations/main-compilation-01.svg" class="fragment fade-in-then-out" /></p>
+<p><img data-src="./illustrations/main-compilation.svg" class="fragment" /></p>
+</div>
+<pre ><code class="bash fragment">make</code></pre>
+</section>
+
+<section id="final-makefile" class="title-slide slide level2">
+<h2>Final makefile</h2>
+<pre ><code class="makefile">enigma: main.o enigma.o
+    g++ main.o enigma.o -o enigma
+
+main.o: main.cpp enigma.h
+    g++ -c main.cpp -o main.o
+
+enigma.o: enigma.cpp enigma.h
+    g++ -c enigma.cpp -o enigma.o</code></pre>
+<blockquote>
+<p>Notice the header is a dependency</p>
+</blockquote>
+</section>
+</section>
+<section>
+<section id="memory-and-pointers" class="title-slide slide level1">
+<h1>Memory and pointers</h1>
+
+</section>
+<section id="pointer-to-string-literal" class="title-slide slide level2">
+<h2>Pointer to String literal</h2>
+<pre ><code class="cpp fragment" data-line-numbers="1-6|3">#include "enigma.h"
+int main(int argc, const char **argv) {
+    const char *phrase01 = "Hello world";
+    encrypt(phrase01, nullptr); 
+    return 0;
+}</code></pre>
+<ul>
+<li class="fragment"><code>phrase01</code> is a pointer (prefixed with a star)
+<ul>
+<li class="fragment"><em>const</em> is a qualifier meaning the pointed object is constant, <em>char</em> is the type</li>
+</ul></li>
+<li class="fragment">a pointer is an address of something in the memory
+<ul>
+<li class="fragment">in that case a string literal compiled with the program</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="memory" class="title-slide slide level2">
+<h2>Memory</h2>
+<div class="r-stack">
+<p><img data-src="./illustrations/pointer-memory-01.svg" class="fragment" /></p>
+<p><img data-src="./illustrations/pointer-memory-02.svg" class="fragment" /></p>
+<p><img data-src="./illustrations/pointer-memory-03.svg" class="fragment" /></p>
+</div>
+<ul>
+<li class="fragment">A pointer uses memory</li>
+<li class="fragment">It contains the address of the pointed object</li>
+<li class="fragment">The type is used to know the size of the pointed object</li>
+</ul>
+</section>
+
+<section id="type-sizes" class="title-slide slide level2">
+<h2>Type sizes</h2>
+<p><img data-src="illustrations/types-memory.svg" /></p>
+<div class="r-stack">
+<pre ><code class="cpp fragment fade-in-then-out">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+    //const char *phrase01 = "Hello world";
+    //encrypt(phrase01, nullptr); 
+    std::cout &lt;&lt; sizeof(int) &lt;&lt; std::endl;
+    std::cout &lt;&lt; sizeof(long) &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+<pre ><code class="cpp fragment">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+    //const char *phrase01 = "Hello world";
+    //encrypt(phrase01, nullptr); 
+    std::cout &lt;&lt; sizeof(int*) &lt;&lt; std::endl;
+    std::cout &lt;&lt; sizeof(long*) &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+</div>
+</section>
+
+<section id="array-of-char" class="title-slide slide level2">
+<h2>Array of char</h2>
+<pre ><code class="cpp fragment">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+    char phrase02[11]; // an array of 11 characters
+    encrypt(phrase02, nullptr); 
+    return 0;
+}</code></pre>
+<ul>
+<li class="fragment">phrase02 points to the beginning of the array</li>
+<li class="fragment">destroyed when leaving the scope</li>
+<li class="fragment">size limited</li>
+<li class="fragment">array is not initialized
+<ul>
+<li class="fragment">undefined behavior</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="dereference-and-address-of" class="title-slide slide level2">
+<h2>Dereference and address of</h2>
+<pre ><code class="cpp fragment">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+    char phrase03[11]; 
+    
+    phrase03[0] = 'h'; // single quote
+
+    *(phrase03 + 1) = 'e'; // * means 'content of (address + 1) '
+
+    char * substring = &(phrase03[3]); // & means address of
+
+    encrypt(substring, nullptr); 
+    return 0;
+}</code></pre>
+<ul>
+<li class="fragment">access to memory like python lists</li>
+<li class="fragment">* means ‘content of’ (dereference)</li>
+<li class="fragment">&amp; means ‘address of’</li>
+</ul>
+</section>
+
+<section id="memory-allocation" class="title-slide slide level2">
+<h2>Memory allocation</h2>
+<pre ><code class="cpp fragment">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+    char *phrase03 = new char[11]; // an array of 11 characters
+    phrase03[0] = 'h';
+    phrase03[10] = 0;
+    encrypt(phrase03, nullptr); 
+    return 0;
+}</code></pre>
+<ul>
+<li class="fragment">lifetime not limited to the current scope</li>
+<li class="fragment">you have to manage the memory</li>
+<li class="fragment">size not limited (only by your system memory)</li>
+</ul>
+</section>
+
+<section id="memory-leak" class="title-slide slide level2">
+<h2>Memory leak</h2>
+<pre ><code class="text" data-line-numbers="10,14">valgrind ./enigma
+==306== Memcheck, a memory error detector
+==306== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==306== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==306== Command: ./enigma
+==306==
+hello bob
+==306==
+==306== HEAP SUMMARY:
+==306==     in use at exit: 11 bytes in 1 blocks
+==306==   total heap usage: 3 allocs, 2 frees, 73,768 bytes allocated
+==306==
+==306== LEAK SUMMARY:
+==306==    definitely lost: 11 bytes in 1 blocks
+==306==    indirectly lost: 0 bytes in 0 blocks
+==306==      possibly lost: 0 bytes in 0 blocks
+==306==    still reachable: 0 bytes in 0 blocks
+==306==         suppressed: 0 bytes in 0 blocks
+==306== Rerun with --leak-check=full to see details of leaked memory
+==306==
+==306== For lists of detected and suppressed errors, rerun with: -s
+==306== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)</code></pre>
+</section>
+
+<section id="delete-allocated-memory" class="title-slide slide level2">
+<h2>Delete allocated memory</h2>
+<pre ><code class="cpp fragment" data-line-numbers="7">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+    char *phrase03 = new char[11]; // an array of 11 characters
+    phrase03[0] = 'h';
+    phrase03[10] = 0;
+    encrypt(phrase03, nullptr); 
+    delete [] phrase03;
+    return 0;
+}</code></pre>
+</section>
+
+<section id="nullptr" class="title-slide slide level2">
+<h2>nullptr</h2>
+<p>nullptr points to nothing</p>
+<pre ><code class="cpp fragment" data-line-numbers="3,6">#include &lt;iostream&gt;
+int main(int argc, const char **argv) {
+    char *phrase03 = nullptr;
+    phrase03[0] = 'h';
+    phrase03[10] = 0;
+    encrypt(phrase03, nullptr); 
+    delete [] phrase03;
+    return 0;
+}</code></pre>
+</section>
+</section>
+</div>
+
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+
+<script>
+  Reveal.initialize({
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  // let's set some configuration options from YAML
+    controls: true,
+    progress: false,
+    slideNumber: false,
+    history: false,
+    keyboard: true,
+    overview: true,
+    center: false,
+    touch: true,
+    loop: false,
+    rtl: false,
+    fragments: true,
+    embedded: false,
+    help: true,
+            autoSlide: 0,
+        autoSlideStoppable: true,
+    mouseWheel: false,
+    hideAddressBar: true,
+    previewLinks: false,
+    transitionSpeed: 'default',
+    backgroundTransition: 'none',
+
+
+
+  // none/fade/slide/convex/concave/zoom
+
+  // Optional libraries used to extend on reveal.js
+  plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+  });
+
+</script>
+
+</body>
+</html>
