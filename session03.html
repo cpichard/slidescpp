@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>C++ Training</title>
+    <meta name="description" content="C++ Training">
+
+          <meta name="author" content="Cyril Pichard" />
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="./reveal.js/dist/reveal.css">
+          <link rel="stylesheet" href="./reveal.js/dist/theme/league.css" id="theme">
+    
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="./reveal.js/plugin/highlight/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+
+    <!--[if lt IE 9]>
+    <script src="./reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    </head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section>
+<h1>C++ Training</h1>
+<h2>Session 3</h2>
+<h3>Cyril Pichard</h3>
+<p>
+<h4></h4>
+</p>
+
+</section>
+
+
+<section>
+<section id="session-3" class="title-slide slide level1">
+<h1>Session 3</h1>
+
+</section>
+<section id="today" class="title-slide slide level2">
+<h2>Today</h2>
+<ul>
+<li class="fragment">Implement enigma</li>
+<li class="fragment">Debug and profile</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="enigma-implementation" class="title-slide slide level1">
+<h1>Enigma implementation</h1>
+
+</section>
+<section id="last-time" class="title-slide slide level2">
+<h2>Last time</h2>
+<pre ><code class="cpp">#include "enigma.h"
+int main(int argc, const char **argv) {
+    const char *word = nullptr; 
+    const char *result = nullptr;
+    encrypt(word, result); 
+    return 0;
+}
+</code></pre>
+<p>What we have to do:</p>
+<ul>
+<li class="fragment">Get the phrase to encrypt from the command line</li>
+<li class="fragment">Allocate memory for result</li>
+<li class="fragment">Implement the <em>encrypt</em> cipher function</li>
+<li class="fragment">Print the result</li>
+</ul>
+</section>
+
+<section id="pointers-on-pointers" class="title-slide slide level2">
+<h2>Pointers on pointers</h2>
+<p>Getting the phrase from the command line</p>
+<pre ><code class="cpp fragment" data-line-numbers="1-5|1">int main(int argc, const char **argv) {
+    std::cout &lt;&lt; argc &lt;&lt; std::endl;
+    std::cout &lt;&lt; argv &lt;&lt; std::endl;
+}</code></pre>
+<ul>
+<li class="fragment"><em>argc</em> is the number of parameter passed in the command line</li>
+<li class="fragment"><em>argv</em> is a pointer on pointer (const char **argv)
+<ul>
+<li class="fragment">a pointer on an array of strings</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="pointers-on-pointers-1" class="title-slide slide level2">
+<h2>Pointers on pointers</h2>
+<div class="r-stack">
+<p><img data-src="./illustrations/pointeronpointer-01.svg" class="fragment fade-in-then-out" /></p>
+<p><img data-src="./illustrations/pointeronpointer-02.svg" class="fragment fade-in-then-out" /></p>
+<p><img data-src="./illustrations/pointeronpointer-03.svg" class="fragment fade-in-then-out" /></p>
+<p><img data-src="./illustrations/pointeronpointer-04.svg" class="fragment fade-in" /></p>
+</div>
+<pre ><code class="cpp fragment" data-line-numbers="">int main(int argc, const char **argv) {
+    std::cout &lt;&lt; argv &lt;&lt; std::endl;
+    std::cout &lt;&lt; argv[0] &lt;&lt; std::endl;
+}</code></pre>
+</section>
+
+<section id="loops-for" class="title-slide slide level2">
+<h2>Loops: for</h2>
+<pre ><code class="cpp">for(initialisation; condition; update) {
+  // do something
+}
+// Range based loop C++11
+for (auto i: vec) {
+}</code></pre>
+<ul>
+<li class="fragment"><em>initialisation</em>: first time when the loop is entered</li>
+<li class="fragment"><em>condition</em>: continue the loop if true</li>
+<li class="fragment"><em>update</em>: at the end of the loop</li>
+</ul>
+</section>
+
+<section id="for-loop" class="title-slide slide level2">
+<h2>For loop</h2>
+<p>Examples:</p>
+<pre ><code class="cpp">for(int i=0; i&lt;20; i++) {
+  // do something
+}
+
+for(int i=0, int j=10; i&lt;20; i++, j--) {
+  // do something
+}</code></pre>
+<ul>
+<li class="fragment">Your turn !
+<ul>
+<li class="fragment">in the main function</li>
+<li class="fragment">write code that iterates on the input arguments (use argc)</li>
+<li class="fragment">note that argv[0] is the name of the program</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="for-loop-1" class="title-slide slide level2">
+<h2>For loop</h2>
+<pre ><code class="cpp fragment" data-line-numbers="">int main(int argc, const char **argv) {
+    for(int i=1; i&lt;argc; i++) {
+        std::cout &lt;&lt; argv[i] &lt;&lt; std::endl;
+        // result ???
+        encrypt(argv[i], result);
+    }
+}</code></pre>
+<ul>
+<li class="fragment">We now want to allocate a buffer to put the result in</li>
+<li class="fragment">Size ?
+<ul>
+<li class="fragment">Same a argv[i]</li>
+</ul></li>
+<li class="fragment">Count the number of characters in argv[i]</li>
+</ul>
+</section>
+
+<section id="while-loop" class="title-slide slide level2">
+<h2>While loop</h2>
+<pre ><code class="cpp fragment" data-line-numbers="">while(condition) {
+ // do something
+}
+
+do {
+    // do something 
+} while(condition)
+</code></pre>
+<ul>
+<li class="fragment">iterate until condition becomes false</li>
+</ul>
+</section>
+
+<section id="while-loop-1" class="title-slide slide level2">
+<h2>While loop</h2>
+<pre ><code class="cpp fragment" data-line-numbers="">int main(int argc, const char **argv) {
+    for(int i=1; i&lt;argc; i++) {
+        int nchar = 0; // number of characters
+        while(/*insert code here*/) {
+            /*insert code here*/
+        };
+        /*allocate result here*/
+        encrypt(argv[i], result);
+    }
+}
+</code></pre>
+<ul>
+<li class="fragment">Your turn ! count the characters
+<ul>
+<li class="fragment">the end of the string is 0 or ‘\0’</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="allocating-result" class="title-slide slide level2">
+<h2>Allocating result</h2>
+<pre ><code class="cpp fragment" data-line-numbers="">int main(int argc, const char **argv) {
+    for(int i=1; i&lt;argc; i++) {
+        int nchar = 0;
+        while(argv[i][nchar] != '\0') nchar++;
+        char result[nchar]; // can you spot the mistake ? 
+        encrypt(argv[i], result);
+    }
+}</code></pre>
+<ul>
+<li class="fragment">size of string buffer is nchar+1 accounting for ‘\0’</li>
+</ul>
+</section>
+
+<section id="encrypt-function" class="title-slide slide level2">
+<h2>Encrypt function</h2>
+<pre ><code class="cpp">
+void encrypt(const char *src, char *result) {
+    // assume src and result have the same size
+    // iterate on the characters and apply a cipher function
+}
+</code></pre>
+<ul>
+<li class="fragment">alphabet shift function
+<ul>
+<li class="fragment">use ascii encoding</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="ascii" class="title-slide slide level2">
+<h2>Ascii</h2>
+<p><img data-src="./illustrations/ascii_table.svg" /></p>
+<ul>
+<li class="fragment">ascii: letter maps to a value</li>
+</ul>
+</section>
+
+<section id="alphabet-shift" class="title-slide slide level2">
+<h2>Alphabet shift</h2>
+<p>char arithmetic</p>
+<pre ><code class="cpp">
+// char are values
+char new_letter = 'a' + 3;
+std::cout &lt;&lt; new_letter &lt;&lt; std::endl;
+
+auto new_lettre = 'a' + 3; // new_lettre takes the type of 3 (int)
+std::cout &lt;&lt; new_lettre &lt;&lt; std::endl;
+</code></pre>
+<ul>
+<li class="fragment">char is a number (ascii) but is intepreted as letter</li>
+<li class="fragment">Can store values ranging from -128 to 127 (1 byte)</li>
+<li class="fragment">Overflow ?? yes ! try multiplying 2 char = 100</li>
+</ul>
+</section>
+
+<section id="alphabet-shift-1" class="title-slide slide level2">
+<h2>Alphabet shift</h2>
+<p>Modulo Operator</p>
+<pre ><code class="cpp">// Modulo operator : %
+std::cout &lt;&lt; 10 % 3 &lt;&lt; std::endl;
+</code></pre>
+<ul>
+<li class="fragment">Modulo operator %
+<ul>
+<li class="fragment">returns the remainder of a division, after one number is divided by another</li>
+<li class="fragment">useful to cycle on a range</li>
+</ul></li>
+<li class="fragment">Your turn, write a cipher function</li>
+</ul>
+</section>
+
+<section id="a-possible-encrypt-function" class="title-slide slide level2">
+<h2>A possible encrypt function</h2>
+<pre ><code class="cpp">void encrypt(const char *src, char *dst) {
+    int key = 6;
+    int index = 0;
+    while (src[index] != '\0') {
+        dst[index] = (((src[index]-'a') + key) % 26) + 'a';
+        index++;
+    };
+}
+</code></pre>
+<ul>
+<li class="fragment">An int in the function converts char to int</li>
+<li class="fragment">Can we get rid of index ?</li>
+</ul>
+</section>
+
+<section id="using-pointers-to-iterate" class="title-slide slide level2">
+<h2>Using pointers to iterate</h2>
+<pre ><code class="cpp">void encrypt(const char *src, char *dst) {
+    int key = 6;
+    while (*src != '\0') {
+        *dst = (((*src-'a') + key) % 26) + 'a';
+        src++; dst++; 
+    };
+}
+</code></pre>
+<ul>
+<li class="fragment">Pointers are also variables</li>
+<li class="fragment">Pointer arithmetic
+<ul>
+<li class="fragment">inc, dec, soustraction</li>
+<li class="fragment">sizeof the pointed type</li>
+</ul></li>
+</ul>
+</section>
+
+<section id="pointers-to-iterate" class="title-slide slide level2">
+<h2>Pointers to iterate</h2>
+<p>TODO: schema</p>
+</section>
+
+<section id="print-the-result" class="title-slide slide level2">
+<h2>Print the result</h2>
+<pre ><code class="cpp fragment fade-in">int main(int argc, const char **argv) {
+    for(int i=1; i&lt;argc; i++) {
+        int nchar = 0;
+        while(argv[i][nchar] != '\0') nchar++;
+        char result[nchar]; // did you spot the mistake ? 
+        encrypt(argv[i], result);
+        std::cout &lt;&lt; result &lt;&lt; " ";
+    }
+    return 0;
+}
+</code></pre>
+</section>
+
+<section id="running-the-program" class="title-slide slide level2">
+<h2>Running the program</h2>
+<pre ><code class="cpp">./enigma hello world</code></pre>
+<ul>
+<li class="fragment">Seems good !</li>
+</ul>
+<pre ><code class="cpp">./enigma bonjoure world</code></pre>
+<ul>
+<li class="fragment">Wait … a bug ???</li>
+</ul>
+</section>
+</section>
+<section>
+<section id="debug-and-profile" class="title-slide slide level1">
+<h1>Debug and profile</h1>
+
+</section>
+<section id="debugger-and-profilers" class="title-slide slide level2">
+<h2>Debugger and profilers</h2>
+<ul>
+<li class="fragment">C++ allows memory errors, overflow, etc</li>
+<li class="fragment">Debuggers: gdb, lldb, visual studio c++</li>
+<li class="fragment">Profilers: perf, valgrind, vtune, …</li>
+</ul>
+</section>
+
+<section id="profiling-enigma" class="title-slide slide level2">
+<h2>Profiling enigma</h2>
+<ul>
+<li class="fragment">Compile your code with symbols
+<ul>
+<li class="fragment">adds the function names and position in the machine code</li>
+<li class="fragment">option ‘-g’ in gcc = debug option</li>
+</ul></li>
+</ul>
+<pre ><code class="bash">valgrind enigma hello world</code></pre>
+</section>
+
+<section id="debugging-enigma" class="title-slide slide level2">
+<h2>Debugging enigma</h2>
+<p>Interactive Debugging Session</p>
+<pre ><code class="bash">gdb enigma
+run hello world</code></pre>
+<ul>
+<li class="fragment">breakpoint</li>
+<li class="fragment">running gdb</li>
+<li class="fragment">printing/displaying data</li>
+<li class="fragment">TUI</li>
+</ul>
+</section>
+</section>
+<section id="next-time" class="title-slide slide level1">
+<h1>Next time</h1>
+<ul>
+<li class="fragment">Static Dynamic libraries</li>
+<li class="fragment">Call enigma functions from python</li>
+<li class="fragment">cmake basics, add gtest</li>
+</ul>
+<ul>
+<li class="fragment">TODO: prepare the decrypt function</li>
+</ul>
+</section>
+</div>
+
+<script src="./reveal.js/dist/reveal.js"></script>
+<script src="./reveal.js/plugin/zoom/zoom.js"></script>
+<script src="./reveal.js/plugin/notes/notes.js"></script>
+<script src="./reveal.js/plugin/search/search.js"></script>
+<script src="./reveal.js/plugin/markdown/markdown.js"></script>
+<script src="./reveal.js/plugin/highlight/highlight.js"></script>
+
+<script>
+  Reveal.initialize({
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  // let's set some configuration options from YAML
+    controls: true,
+    progress: false,
+    slideNumber: false,
+    history: false,
+    keyboard: true,
+    overview: true,
+    center: false,
+    touch: true,
+    loop: false,
+    rtl: false,
+    fragments: true,
+    embedded: false,
+    help: true,
+            autoSlide: 0,
+        autoSlideStoppable: true,
+    mouseWheel: false,
+    hideAddressBar: true,
+    previewLinks: false,
+    transitionSpeed: 'default',
+    backgroundTransition: 'none',
+
+
+
+  // none/fade/slide/convex/concave/zoom
+
+  // Optional libraries used to extend on reveal.js
+  plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+  });
+
+</script>
+
+</body>
+</html>
