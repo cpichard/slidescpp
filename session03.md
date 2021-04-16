@@ -198,12 +198,12 @@ char arithmetic
 char new_letter = 'a' + 3;
 std::cout << new_letter << std::endl;
 
-auto new_lettre = 'a' + 3; // new_lettre takes the type of 3 (int)
+auto new_lettre = 'a' + 3; // new_lettre is an int because of 3
 std::cout << new_lettre << std::endl;
 
 ```
 
-> - char is a number (ascii) but is intepreted as letter
+> - char is a number (ascii) but is interpreted as letter
 > - Can store values ranging from -128 to 127 (1 byte)
 > - Overflow ?? yes ! try multiplying 2 char = 100
 
