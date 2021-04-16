@@ -260,7 +260,7 @@ void encrypt(const char *src, char *dst) {
 
 ## Pointers to iterate 
 
-TODO: schema
+![](illustrations/pointerarithm02.svg)
 
 ## Print the result
 
